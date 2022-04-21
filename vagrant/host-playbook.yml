@@ -22,7 +22,7 @@
         value: 'true'
         vtype: select
 
-    - name: Run apt-update and install virtualbox virtualbox-ext-pack
+    - name: Run apt-update and install vagrant virtualbox virtualbox-ext-pack
       apt:
         pkg:
         - virtualbox
@@ -45,7 +45,6 @@
         repo: 'https://github.com/Richzendy/timeoff-management-deploy'
         dest: /root/
         update: yes
-        single_branch: yes
         version: master
 
 
