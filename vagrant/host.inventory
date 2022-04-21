@@ -1,0 +1,2 @@
+[vagrant-gorillalogic]
+49.12.223.246 ansible_user=root ansible_ssh_port=22
