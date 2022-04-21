@@ -47,4 +47,13 @@
         update: yes
         version: master
 
+    - name: Execute vagrant up
+      chdir: /root/timeoff-management-deploy/vagrant
+      ansible.builtin.command: vagrant up
+
+    - name: Execute vagrant provision
+      chdir: /root/timeoff-management-deploy/vagrant
+      ansible.builtin.command: vagrant provision
+
+
 
