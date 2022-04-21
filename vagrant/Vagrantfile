@@ -1,0 +1,63 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# All Vagrant configuration is done below. The "2" in Vagrant.configure
+# configures the configuration version (we support older styles for
+# backwards compatibility). Please don't change it unless you know what
+# you're doing.
+Vagrant.configure("2") do |config|
+
+  config.vm.box = 'bento/ubuntu-20.04'
+  config.vm.network "forwarded_port", guest: 3000, host: 3000
+  config.vm.hostname = "timeoff-management-application"
+  config.vm.network :private_network, ip: "192.168.56.1"
+
+  config.vm.provider "virtualbox" do |vb|
+  #   # Display the VirtualBox GUI when booting the machine
+     vb.gui = false
+  #
+  #   # Customize the amount of memory on the VM:
+     vb.memory = "1024"     
+     vb.name = "timeoff-management-application"
+     config.vm.box_check_update = false
+  end
+
+  # Set the name of the VM. See: http://stackoverflow.com/a/17864388/100134
+  config.vm.define :timeoff do |timeoff|
+  end
+  #
+  # View the documentation for the provider you are using for more
+  # information on available options.
+
+  # Enable provisioning with a shell script. Additional provisioners such as
+  # Ansible, Chef, Docker, Puppet and Salt are also available. Please see the
+  # documentation for more information about their specific syntax and use.
+  # config.vm.provision "shell", inline: <<-SHELL
+  #   apt-get update
+  #   apt-get install -y apache2
+  # SHELL
+  #
+  # Run Ansible from the Vagrant Host
+  #
+  config.vm.provision "shell", inline: <<-SHELL
+    sudo apt-get update
+    sudo apt-get install --yes software-properties-common
+    sudo apt-add-repository --yes --update ppa:ansible/ansible
+    sudo apt-get install ansible --yes
+  SHELL
+
+  # Patch for https://github.com/mitchellh/vagrant/issues/6793
+  config.vm.provision "shell" do |s|
+    s.inline = '[[ ! -f $1 ]] || grep -F -q "$2" $1 || sed -i "/__main__/a \\    $2" $1'
+    s.args = ['/usr/bin/ansible-galaxy', "if sys.argv == ['/usr/bin/ansible-galaxy', '--help']: sys.argv.insert(1, 'info')"]
+  end
+
+  # Ansible provisioner.
+  config.vm.provision :ansible_local do |ansible|
+    ansible.compatibility_mode = "2.0"
+    ansible.sudo = true
+    ansible.become = true
+    ansible.playbook = "provisioning/playbook.yml"
+    ansible.inventory_path = "provisioning/inventory"
+  end
+end
