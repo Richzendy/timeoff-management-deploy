@@ -1,9 +1,6 @@
 ---
 - hosts: vagrant-gorillalogic
   become: true
-  apt_key:
-      url: "{{ virtualbox_apt_key_url }}"
-      state: present
 
   tasks:
 
