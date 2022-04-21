@@ -10,7 +10,9 @@
   tasks:
     - name: Run apt-update and install virtualbox virtualbox-ext-pack
       apt:
-        name: virtualbox virtualbox-ext-pack
+        pkg:
+        - virtualbox
+        - virtualbox-ext-pack
         update_cache: yes
         cache_valid_time: 3600
 
