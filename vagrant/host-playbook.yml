@@ -43,7 +43,7 @@
     - name: Clone and Update deploy repo on vagrant host
       ansible.builtin.git:
         repo: 'https://github.com/Richzendy/timeoff-management-deploy'
-        dest: /root/
+        dest: /root/timeoff-management-deploy
         update: yes
         version: master
 
