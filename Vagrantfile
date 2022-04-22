@@ -11,6 +11,5 @@ Vagrant.configure("2") do |config|
     d.build_dir = "./timeoff-management-application/"
     d.ports = ["80:3000"]
     d.name = "timeoff-management-app"
-    d.has_ssh = true
   end
 end
