@@ -49,6 +49,11 @@
         update: yes
         version: master
 
+    - name: update timeoff-management-app repo from master
+      command: git pull origin master 
+      args:
+        chdir: "timeoff-management-application"
+
     - name: Execute vagrant up
       command: vagrant up      
       args:
