@@ -8,7 +8,7 @@
       become: yes
 
   tasks:
-    - name: Run apt-update and install vagrant virtualbox  virtualbox-dkms virtualbox-ext-pack
+    - name: Run apt-update and install Docker-CE and vagrant on host
       apt:
         pkg:
         - apt-transport-https
