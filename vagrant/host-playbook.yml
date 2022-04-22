@@ -8,29 +8,39 @@
       become: yes
 
   tasks:
-    - name: Accept virtualbox-ext-pack seen license
-      debconf:
-        name: virtualbox-ext-pack
-        question: virtualbox-ext-pack/license
-        value: 'true'
-        vtype: seen
-
-    - name: Accept virtualbox-ext-pack select license
-      debconf:
-        name: virtualbox-ext-pack
-        question: virtualbox-ext-pack/license
-        value: 'true'
-        vtype: select
-
     - name: Run apt-update and install vagrant virtualbox  virtualbox-dkms virtualbox-ext-pack
       apt:
         pkg:
-        - virtualbox
-        - virtualbox-dkms
-        - virtualbox-ext-pack
+        - apt-transport-https
+        - ca-certificates
+        - curl
+        - software-properties-common
+        - python3-pip
+        - virtualenv
         - vagrant
+        state: latest
         update_cache: yes
         cache_valid_time: 3600
+
+    - name: Add Docker GPG apt Key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: Add Docker Repository
+      apt_repository:
+        repo: deb https://download.docker.com/linux/ubuntu focal stable
+        state: present
+
+    - name: Update apt and install docker-ce
+      apt:
+        name: docker-ce
+        state: latest
+        update_cache: true
+
+    - name: Install Docker Module for Python
+      pip:
+        name: docker
 
     - name: Reboot host and wait for it to restart
       reboot:
@@ -40,16 +50,6 @@
         pre_reboot_delay: 0
         post_reboot_delay: 30
         test_command: whoami
-
-    - name: Install kernel headers
-      apt: >
-        name=linux-headers-{{ ansible_kernel }}
-        state=present
-        update_cache=yes
-      tags: kernel_headers
-
-    - name: Load Kernel VirtualBox module
-      command: dpkg-reconfigure virtualbox-dkms
 
     - name: Clone and Update deploy repo on vagrant host
       ansible.builtin.git:
@@ -61,12 +61,6 @@
     - name: Execute vagrant up
       command: vagrant up      
       args:
-        chdir: /root/timeoff-management-deploy/vagrant
-
-    - name: Execute vagrant provision
-      command: vagrant provision
-      args:
-        chdir: /root/timeoff-management-deploy/vagrant
-
+        chdir: /root/timeoff-management-deploy
 
 
