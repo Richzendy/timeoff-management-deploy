@@ -11,12 +11,11 @@
     - name: Run apt-update and install Docker-CE and vagrant on host
       apt:
         pkg:
+        - git
         - apt-transport-https
         - ca-certificates
         - curl
         - software-properties-common
-        - python3-pip
-        - virtualenv
         - vagrant
         state: latest
         update_cache: yes
@@ -37,10 +36,6 @@
         name: docker-ce
         state: latest
         update_cache: true
-
-    - name: Install Docker Module for Python
-      pip:
-        name: docker
 
     - name: Clone and Update deploy repo on vagrant host
       ansible.builtin.git:
