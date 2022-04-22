@@ -1,0 +1,23 @@
+---
+- hosts: vagrant-gorillalogic
+  become: true
+  tasks:
+  - name: Creating Jfrog Auth config
+    copy:
+      dest: "/root/.docker/config.json"
+      path: "{{ item }}"
+      with_items:
+          - jfrog-config.json
+
+  - name: Change permission on jfrog.sh file
+    file:
+      path: /root/timeoff-management-deploy/jfrog.sh
+      state: file
+      owner: root
+      group: root
+      mode: 0755
+
+  - name: Upload docker image to Jfrog
+    command: bash jfrog.sh     
+    args:
+      chdir: /root/timeoff-management-deploy
