@@ -54,4 +54,9 @@
       args:
         chdir: /root/timeoff-management-deploy
 
+    - name: Rebuild Docker Container
+      command: vagrant reload      
+      args:
+        chdir: /root/timeoff-management-deploy
+
 
