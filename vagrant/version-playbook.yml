@@ -4,7 +4,7 @@
   tasks:
   - name: Creating Jfrog Auth config
     copy:
-      src: ./jfrog-config.json
+      src: jfrog-config.json
       dest: "/root/.docker/config.json"
 
   - name: Change permission on jfrog.sh file
