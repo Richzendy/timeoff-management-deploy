@@ -48,12 +48,14 @@
         version: master
 
     - name: Execute vagrant up
-      chdir: /root/timeoff-management-deploy/vagrant
-      ansible.builtin.command: vagrant up
+      command: vagrant up      
+      args:
+        chdir: /root/timeoff-management-deploy/vagrant
 
     - name: Execute vagrant provision
-      chdir: /root/timeoff-management-deploy/vagrant
-      ansible.builtin.command: vagrant provision
+      command: vagrant provision
+      args:
+        chdir: /root/timeoff-management-deploy/vagrant
 
 
 
