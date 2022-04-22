@@ -26,6 +26,7 @@
       apt:
         pkg:
         - virtualbox
+        - virtualbox-dkms
         - virtualbox-ext-pack
         - vagrant
         update_cache: yes
