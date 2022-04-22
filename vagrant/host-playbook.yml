@@ -22,7 +22,7 @@
         value: 'true'
         vtype: select
 
-    - name: Run apt-update and install vagrant virtualbox virtualbox-ext-pack
+    - name: Run apt-update and install vagrant virtualbox  virtualbox-dkms virtualbox-ext-pack
       apt:
         pkg:
         - virtualbox
@@ -40,6 +40,16 @@
         pre_reboot_delay: 0
         post_reboot_delay: 30
         test_command: whoami
+
+    - name: Install kernel headers
+      apt: >
+        name=linux-headers-{{ ansible_kernel }}
+        state=present
+        update_cache=yes
+      tags: kernel_headers
+
+    - name: Load Kernel VirtualBox module
+      command: dpkg-reconfigure virtualbox-dkms
 
     - name: Clone and Update deploy repo on vagrant host
       ansible.builtin.git:
