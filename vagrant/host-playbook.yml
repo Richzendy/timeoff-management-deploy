@@ -43,6 +43,7 @@
         dest: /root/timeoff-management-deploy
         update: yes
         version: master
+        force: yes
 
     - name: update timeoff-management-app repo from master
       command: git pull origin master 
